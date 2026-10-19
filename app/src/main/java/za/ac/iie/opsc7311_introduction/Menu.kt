@@ -10,6 +10,7 @@ class Menu : AppCompatActivity() {
     private lateinit var btnMonthlyGoals: Button
     private lateinit var btnCategoryTotals: Button
     private lateinit var btnExpenseList: Button
+    private lateinit var btnAddExpense: Button
     private lateinit var btnMenuCategories: Button
     private lateinit var btnMenuSettings: Button
     private lateinit var btnLogout: Button
@@ -22,6 +23,7 @@ class Menu : AppCompatActivity() {
         btnMonthlyGoals = findViewById(R.id.btnMonthlyGoals)
         btnCategoryTotals = findViewById(R.id.btnCategoryTotals)
         btnExpenseList = findViewById(R.id.btnExpenseList)
+        btnAddExpense = findViewById(R.id.btnAddExpense)
         btnMenuCategories = findViewById(R.id.btnMenuCategories)
         btnMenuSettings = findViewById(R.id.btnMenuSettings)
         btnLogout = findViewById(R.id.btnLogout)
@@ -34,6 +36,9 @@ class Menu : AppCompatActivity() {
         }
         btnExpenseList.setOnClickListener {
             Intent(this, ExpenseList::class.java).also { startActivity(it) }
+        }
+        btnAddExpense.setOnClickListener {
+            Intent(this, AddExpense::class.java).also { startActivity(it) }
         }
         btnMenuCategories.setOnClickListener {
             Intent(this, Categories::class.java).also { startActivity(it) }

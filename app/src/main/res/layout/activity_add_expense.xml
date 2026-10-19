@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#282828"
+    android:fillViewport="true"
+    tools:context=".AddExpense">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="24dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="#841919"
+            android:gravity="center"
+            android:text="Add expense"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold" />
+
+        <EditText
+            android:id="@+id/etExpenseAmount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="24dp"
+            android:backgroundTint="#841919"
+            android:hint="Amount (R)"
+            android:inputType="numberDecimal"
+            android:minHeight="48dp"
+            android:textColor="#EBE19D"
+            android:textColorHint="#9A9A9A" />
+
+        <EditText
+            android:id="@+id/etExpenseDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#841919"
+            android:hint="Description"
+            android:inputType="text"
+            android:minHeight="48dp"
+            android:textColor="#EBE19D"
+            android:textColorHint="#9A9A9A" />
+
+        <Spinner
+            android:id="@+id/spExpenseCategory"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:background="#EBE19D"
+            android:minHeight="48dp" />
+
+        <Button
+            android:id="@+id/btnExpenseDate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:backgroundTint="#841919"
+            android:text="Date"
+            android:textColor="#EBE19D" />
+
+        <Button
+            android:id="@+id/btnStartTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#841919"
+            android:text="Start time"
+            android:textColor="#EBE19D" />
+
+        <Button
+            android:id="@+id/btnEndTime"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#841919"
+            android:text="End time"
+            android:textColor="#EBE19D" />
+
+        <Button
+            android:id="@+id/btnPickPhoto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#841919"
+            android:text="Attach photo (optional)"
+            android:textColor="#EBE19D" />
+
+        <TextView
+            android:id="@+id/tvPhotoStatus"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="No photo attached"
+            android:textColor="#EBE19D" />
+
+        <Button
+            android:id="@+id/btnSaveExpense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:backgroundTint="#000000"
+            android:text="Save expense"
+            android:textColor="#EBE19D" />
+
+        <Button
+            android:id="@+id/btnExpenseBack"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:backgroundTint="#000000"
+            android:text="Back"
+            android:textColor="#EBE19D" />
+    </LinearLayout>
+</ScrollView>

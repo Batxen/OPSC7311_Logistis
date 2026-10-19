@@ -127,7 +127,7 @@ class Categories : AppCompatActivity() {
 
         }//btnsubmit
 
-        btnback.setOnClickListener { Intent(this, Menu::class.java).also { startActivity(it) } }
+        btnback.setOnClickListener { finish() }
 
 
     }//oncreate

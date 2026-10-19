@@ -75,56 +75,45 @@ class Categories : AppCompatActivity() {
 
 
         btnsubmit.setOnClickListener {
-            //test if category is empty
-            var opt = true
-            opt = tools.validateField(etcategory)
-            opt = tools.validateField(etmin)
-            opt = tools.validateField(etmax)
+            // check every field (and = all errors show); min/max must be valid amounts
+            val valid = tools.validateField(etcategory) and
+                    tools.validateAmount(etmin) and
+                    tools.validateAmount(etmax)
 
+            if (!valid) {
+                Toast.makeText(this, "Please fill in all fields with valid values", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            if (!opt) {
-                Toast.makeText(this, "None of the fields may be empty", Toast.LENGTH_SHORT).show()
-            } else {
-                Toast.makeText(this, "Category saved", Toast.LENGTH_SHORT).show()
-                //save category, min, max to database
+            val name = etcategory.text.toString().trim()
+            val newcategory = dbRoom.dcCategory(
+                cat = name,
+                catmin = etmin.text.toString(),
+                catmax = etmax.text.toString()
+            )
 
-                val newcategory = dbRoom.dcCategory(
-                    cat = etcategory.text.toString(),
-                    catmin = etmin.text.toString(),
-                    catmax = etmax.text.toString()
-                )
-                //add category to listview
-                //clear edittext
-                //if etcategory exist in database, then reject entry with waning
-                lifecycleScope.launch {
-                    val categoryDao = db.categoryDao()
-                    categoryDao.insert(newcategory)
-                }//coroutine
+            lifecycleScope.launch {
+                // reject duplicate category names
+                if (categoryDao.getAll().any { it.cat.equals(name, ignoreCase = true) }) {
+                    etcategory.error = "That category already exists"
+                    return@launch
+                }
+
+                categoryDao.insert(newcategory)
+                Log.i("BXR", "Category saved: $name")
+
+                // reload the list only after the insert has finished
+                catlist.clear()
+                for (item in categoryDao.getAll()) {
+                    catlist.add(item.cat + "   R" + item.catmax + "   R" + item.catmin)
+                }
+                (lvCategories.adapter as? ArrayAdapter<*>)?.notifyDataSetChanged()
+
+                Toast.makeText(this@Categories, "Category saved", Toast.LENGTH_SHORT).show()
                 etcategory.text.clear()
                 etmin.text.clear()
                 etmax.text.clear()
-            }//else if
-
-            val categoryAdapter = ArrayAdapter(
-                this@Categories,
-                android.R.layout.simple_list_item_1, catlist
-            )//ArrayAdapter
-
-            //refresh listview
-            categoryAdapter.clear()
-
-            lifecycleScope.launch {
-
-                val lstcat = categoryDao.getAll()
-
-                for (item in lstcat) {
-                    val xx = item.cat + "   R" + item.catmax + "   R" + item.catmin
-                    catlist.add(xx)
-                }
-
-                lvCategories.adapter = categoryAdapter
-            }//coroutine
-
+            }
         }//btnsubmit
 
         btnback.setOnClickListener { finish() }

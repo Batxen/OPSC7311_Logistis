@@ -44,8 +44,7 @@ import kotlinx.coroutines.launch
 
             btnnext.setOnClickListener {
 
-                opt = tools.validateField(etusername)
-                opt = tools.validateField(etpassword)
+                opt = tools.validateField(etusername) and tools.validateField(etpassword)
 
                 if (!opt) {
                     Toast.makeText(

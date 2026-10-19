@@ -35,6 +35,9 @@
         <activity android:name=".CategoryTotals" />
         <activity android:name=".ExpenseList" />
         <activity android:name=".ExpensePhoto" />
+        <activity
+            android:name=".AddExpense"
+            android:windowSoftInputMode="adjustResize" />
 
         <provider
             android:name="androidx.core.content.FileProvider"

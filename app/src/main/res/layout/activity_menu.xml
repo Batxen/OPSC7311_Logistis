@@ -59,14 +59,27 @@
         app:layout_constraintTop_toBottomOf="@id/btnCategoryTotals" />
 
     <Button
-        android:id="@+id/btnMenuCategories"
+        android:id="@+id/btnAddExpense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:backgroundTint="#841919"
+        android:text="Add expense"
+        android:textColor="#EBE19D"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/btnExpenseList" />
+
+    <Button
+        android:id="@+id/btnMenuCategories"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="80dp"
+        android:backgroundTint="#841919"
         android:text="Categories"
         android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnExpenseList" />
 

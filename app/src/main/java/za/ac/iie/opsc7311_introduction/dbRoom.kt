@@ -5,6 +5,7 @@ import androidx.room.Database
 import androidx.room.Delete
 import androidx.room.Entity
 import androidx.room.Insert
+import androidx.room.OnConflictStrategy
 import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.RoomDatabase
@@ -36,6 +37,12 @@ class dbRoom {
         val photo: String
     )//expenses class
 
+    @Entity(tableName = "monthly_goals")
+    data class dcMonthlyGoal(
+        @PrimaryKey val id: Int = 1,
+        val minGoal: String,
+        val maxGoal: String
+    )//monthly spending goal for the current month
 
     //Data Access Objects - one for each table/entity
     @Dao
@@ -116,11 +123,24 @@ class dbRoom {
         suspend fun getAll(): List<dcExpenses>
     }
 
-    @Database(entities = [dcUser::class, dcCategory::class, dcExpenses::class], version = 1)
+    @Dao
+    interface MonthlyGoalDao {
+        @Insert(onConflict = OnConflictStrategy.REPLACE)
+        suspend fun upsert(goal: dcMonthlyGoal)
+
+        @Query("SELECT * FROM monthly_goals WHERE id = 1")
+        suspend fun getGoal(): dcMonthlyGoal?
+    }
+
+    @Database(
+        entities = [dcUser::class, dcCategory::class, dcExpenses::class, dcMonthlyGoal::class],
+        version = 2
+    )
     abstract class AppDatabase : RoomDatabase() {
         abstract fun userDao(): UserDao
         abstract fun categoryDao(): CategoryDao
         abstract fun expensesDao(): ExpensesDao
+        abstract fun monthlyGoalDao(): MonthlyGoalDao
     }
 
 

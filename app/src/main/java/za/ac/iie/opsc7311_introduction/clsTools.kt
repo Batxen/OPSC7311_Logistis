@@ -14,6 +14,18 @@ class clsTools {
         }
     }
 
+    public fun validateAmount(varText: EditText): Boolean {
+        if (!validateField(varText)) {
+            return false
+        }
+        val amount = varText.text.toString().replace(",", "").toDoubleOrNull()
+        if (amount == null || amount < 0) {
+            varText.error = "Enter a valid amount"
+            return false
+        }
+        return true
+    }
+
     fun hashPassword(password: String): String {
         val bytes = password.toByteArray()
         val md = MessageDigest.getInstance("SHA-256")

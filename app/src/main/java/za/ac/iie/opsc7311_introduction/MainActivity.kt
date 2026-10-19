@@ -38,7 +38,8 @@ import kotlinx.coroutines.launch
             val db = Room.databaseBuilder(
                 applicationContext,
                 dbRoom.AppDatabase::class.java, dbName
-            ).build()  //build the database
+            ).fallbackToDestructiveMigration(true)
+                .build()  //build the database
             val userDao = db.userDao()
 
             btnnext.setOnClickListener {

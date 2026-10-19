@@ -49,7 +49,8 @@ class Categories : AppCompatActivity() {
         val db = Room.databaseBuilder(
             applicationContext,
             dbRoom.AppDatabase::class.java, dbName
-        ).build()  //build the database =
+        ).fallbackToDestructiveMigration(true)
+            .build()  //build the database =
 
         val catlist: MutableList<String> = mutableListOf()
         val categoryDao = db.categoryDao()

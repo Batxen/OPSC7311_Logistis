@@ -13,3 +13,4 @@ This app is to be able to:
 7.) Allow a user to view the total amount spent in each category within a group of dates
 
 Video Presentation:
+https://www.youtube.com/watch?v=0wQfutqKkgE 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#282828"
     android:padding="24dp"
     tools:context=".ExpenseList">
 
@@ -11,7 +12,9 @@
         android:id="@+id/tvExpenseListTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#841919"
         android:text="Expense entries"
+        android:textColor="#000000"
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +26,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:background="#841919"
         android:text="Choose a time period to view expense entries"
+        android:textColor="#EBE19D"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -35,7 +40,9 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
+        android:backgroundTint="#841919"
         android:text="Start date"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toStartOf="@id/btnExpenseEndDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvExpenseListHint" />
@@ -45,7 +52,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="8dp"
+        android:backgroundTint="#841919"
         android:text="End date"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnExpenseStartDate"
         app:layout_constraintTop_toTopOf="@id/btnExpenseStartDate" />
@@ -56,6 +65,7 @@
         android:layout_height="0dp"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
+        android:background="#841919"
         app:layout_constraintBottom_toTopOf="@id/btnExpenseListBack"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -78,7 +88,9 @@
         android:id="@+id/btnExpenseListBack"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:backgroundTint="#841919"
         android:text="Back"
+        android:textColor="#EBE19D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

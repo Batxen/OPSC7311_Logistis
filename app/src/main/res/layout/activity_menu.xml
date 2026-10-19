@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#282828"
     android:padding="24dp"
     tools:context=".Menu">
 
@@ -11,7 +12,10 @@
         android:id="@+id/tvMenuTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:background="#841919"
+        android:backgroundTint="#841919"
         android:text="Menu"
+        android:textColor="#000000"
         android:textSize="28sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
@@ -23,7 +27,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="48dp"
+        android:backgroundTint="#841919"
         android:text="Monthly spending goals"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMenuTitle" />
@@ -33,7 +39,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#841919"
         android:text="Spent per category"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnMonthlyGoals" />
@@ -43,7 +51,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#841919"
         android:text="Expense entries"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnCategoryTotals" />
@@ -53,7 +63,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#841919"
         android:text="Categories"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnExpenseList" />
@@ -63,7 +75,9 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:backgroundTint="#841919"
         android:text="Settings"
+        android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/btnMenuCategories" />
@@ -73,7 +87,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="8dp"
+        android:backgroundTint="#841919"
         android:text="Log out"
+        android:textColor="#EBE19D"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

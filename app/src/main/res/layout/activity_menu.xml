@@ -10,13 +10,14 @@
 
     <TextView
         android:id="@+id/tvMenuTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="357dp"
+        android:layout_height="59dp"
+        android:gravity="center"
         android:background="#841919"
         android:backgroundTint="#841919"
-        android:text="Menu"
+        android:text="Logistis"
         android:textColor="#000000"
-        android:textSize="28sp"
+        android:textSize="50sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -26,11 +27,12 @@
         android:id="@+id/btnMonthlyGoals"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="48dp"
+        android:layout_marginTop="240dp"
         android:backgroundTint="#841919"
         android:text="Monthly spending goals"
         android:textColor="#EBE19D"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvMenuTitle" />
 

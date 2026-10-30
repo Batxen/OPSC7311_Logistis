@@ -87,8 +87,8 @@ class AddExpense : AppCompatActivity() {
         val tools = clsTools()
         val db = Room.databaseBuilder(
             applicationContext,
-            dbRoom.AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration(true)
+            AppDatabase::class.java, "mydb"
+        ).fallbackToDestructiveMigration()
             .build()
         val categoryDao = db.categoryDao()
         val expensesDao = db.expensesDao()
@@ -189,7 +189,7 @@ class AddExpense : AppCompatActivity() {
             }
 
 
-            val expense = dbRoom.dcExpenses(
+            val expense = dcExpenses(
                 category = category,
                 date = dateValue,
                 expense = amount.toString(),

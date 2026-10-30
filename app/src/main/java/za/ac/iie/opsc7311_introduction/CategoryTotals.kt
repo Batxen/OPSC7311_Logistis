@@ -100,8 +100,8 @@ class CategoryTotals : AppCompatActivity() {
     private fun loadCategoryTotals() {
         val db = Room.databaseBuilder(
             applicationContext,
-            dbRoom.AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration(true)
+            AppDatabase::class.java, "mydb"
+        ).fallbackToDestructiveMigration()
             .build()
 
         val periodStart = startDate.timeInMillis

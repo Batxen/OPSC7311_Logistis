@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "763571714347",
+    "project_id": "opsc7311---introduction",
+    "storage_bucket": "opsc7311---introduction.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:763571714347:android:d838cfc4336321ad3eed6e",
+        "android_client_info": {
+          "package_name": "za.ac.iie.opsc7311_introduction"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD1YQVszcRysAQYdRJer8feLFa2DLVNfAU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

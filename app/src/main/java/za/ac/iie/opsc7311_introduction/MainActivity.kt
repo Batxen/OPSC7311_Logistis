@@ -13,10 +13,15 @@ import kotlinx.coroutines.launch
 
     class MainActivity : AppCompatActivity() {
         //variables declared here
-//late initialisation of variables
+        //late initialisation of variables
         private lateinit var btnnext: Button
         private lateinit var etusername: EditText
         private lateinit var etpassword: EditText
+
+        lateinit var toggle: ActionBarDrawerToggle
+        lateinit var drawerLayout: DrawerLayout
+        lateinit var navView: NavigationView
+        lateinit var toolbar: MaterialToolbar
 
         override fun onCreate(savedInstanceState: Bundle?) {
 
@@ -27,6 +32,31 @@ import kotlinx.coroutines.launch
             btnnext = findViewById(R.id.btnNext)
             etusername = findViewById(R.id.etUsername)
             etpassword = findViewById(R.id.etPassword)
+
+            drawerLayout = findViewById(R.id.drawerLayout)
+            navView = findViewById(R.id.nav_view)
+            toolbar = findViewById(R.id.toolbar)
+
+            setSupportActionBar(toolbar)
+
+            toggle = ActionBarDrawerToggle(this@MainActivity, drawerLayout, "open", "close")
+            drawerLayout.addDrawerListener(toggle)
+            toggle.syncState()
+
+            supportActionBar?.setDisplayHomeAsUpEnabled(true) //the back arrow
+
+            navView.setNavigationItemSelectedListener { item ->
+                when (item.itemId) {
+                    R.id.nav_login -> {
+                        Toast.makeText(applicationContext, "Clicked Login", Toast.LENGTH_SHORT).show()
+                    }
+                    R.id.nav_settings -> {
+                        Toast.makeText(applicationContext, "Clicked Settings", Toast.LENGTH_SHORT).show()
+                    }
+                }
+                drawerLayout.closeDrawers()
+                true
+
 
             var opt: Boolean
 

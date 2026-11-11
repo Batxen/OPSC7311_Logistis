@@ -34,7 +34,6 @@ class Categories : AppCompatActivity() {
         setContentView(binding.root)
 
         val tools = clsTools()
-        val room = dbRoom()
 
         //initialise local variables by linking it to the canvas variables
         //using viewbinding instead of etCategory =  findViewById(R.id.etCategory)
@@ -48,8 +47,8 @@ class Categories : AppCompatActivity() {
         val dbName = "mydb"
         val db = Room.databaseBuilder(
             applicationContext,
-            dbRoom.AppDatabase::class.java, dbName
-        ).fallbackToDestructiveMigration(true)
+            AppDatabase::class.java, dbName
+        ).fallbackToDestructiveMigration()
             .build()  //build the database =
 
         val catlist: MutableList<String> = mutableListOf()
@@ -86,7 +85,7 @@ class Categories : AppCompatActivity() {
             }
 
             val name = etcategory.text.toString().trim()
-            val newcategory = dbRoom.dcCategory(
+            val newcategory = dcCategory(
                 cat = name,
                 catmin = etmin.text.toString(),
                 catmax = etmax.text.toString()

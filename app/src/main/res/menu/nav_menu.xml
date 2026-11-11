@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/nav_login"
+        android:title="Login" />
+
+    <item
+        android:id="@+id/nav_monthly_goals"
+        android:title="Monthly spending goals" />
+
+    <item
+        android:id="@+id/nav_category_totals"
+        android:title="Spent per category" />
+
+    <item
+        android:id="@+id/nav_expense_list"
+        android:title="Expense entries" />
+
+    <item
+        android:id="@+id/nav_add_expense"
+        android:title="Add expense" />
+
+    <item
+        android:id="@+id/nav_categories"
+        android:title="Categories" />
+
+    <item
+        android:id="@+id/nav_settings"
+        android:title="Settings" />
+
+    <item
+        android:id="@+id/nav_logout"
+        android:title="Log out" />
+
+</menu>

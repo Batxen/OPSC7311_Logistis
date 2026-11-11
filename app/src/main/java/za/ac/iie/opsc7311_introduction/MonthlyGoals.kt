@@ -37,7 +37,7 @@ class MonthlyGoals : AppCompatActivity() {
 
         val db = Room.databaseBuilder(
             applicationContext,
-            dbRoom.AppDatabase::class.java, "mydb"
+            AppDatabase::class.java, "mydb"
         ).fallbackToDestructiveMigration(true)
             .build()
         val goalDao = db.monthlyGoalDao()
@@ -68,7 +68,7 @@ class MonthlyGoals : AppCompatActivity() {
 
             lifecycleScope.launch {
                 goalDao.upsert(
-                    dbRoom.dcMonthlyGoal(
+                    dcMonthlyGoal(
                         minGoal = minGoal.toString(),
                         maxGoal = maxGoal.toString()
                     )
@@ -85,8 +85,8 @@ class MonthlyGoals : AppCompatActivity() {
     }
 
     private fun loadGoalsAndSpend(
-        goalDao: dbRoom.MonthlyGoalDao,
-        expensesDao: dbRoom.ExpensesDao
+        goalDao: MonthlyGoalDao,
+        expensesDao: ExpensesDao
     ) {
         lifecycleScope.launch {
             val goal = goalDao.getGoal()
@@ -102,7 +102,7 @@ class MonthlyGoals : AppCompatActivity() {
         }
     }
 
-    private fun currentMonthSpend(expenses: List<dbRoom.dcExpenses>): Double {
+    private fun currentMonthSpend(expenses: List<dcExpenses>): Double {
         return expenses.filter { isInCurrentMonth(it.date) }
             .sumOf { parseAmount(it.expense) }
     }
@@ -135,7 +135,7 @@ class MonthlyGoals : AppCompatActivity() {
         return false
     }
 
-    private fun goalStatus(goal: dbRoom.dcMonthlyGoal?, spent: Double): String {
+    private fun goalStatus(goal: dcMonthlyGoal?, spent: Double): String {
         if (goal == null) {
             return "No monthly goal set yet"
         }

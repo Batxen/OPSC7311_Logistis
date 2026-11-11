@@ -101,7 +101,7 @@ class ExpenseList : AppCompatActivity() {
     private fun loadExpenses() {
         val db = Room.databaseBuilder(
             applicationContext,
-            dbRoom.AppDatabase::class.java, "mydb"
+            AppDatabase::class.java, "mydb"
         ).fallbackToDestructiveMigration(true)
             .build()
 
@@ -162,8 +162,8 @@ class ExpenseList : AppCompatActivity() {
 
     private class ExpenseAdapter(
         context: Context,
-        private val expenses: List<dbRoom.dcExpenses>
-    ) : ArrayAdapter<dbRoom.dcExpenses>(context, 0, expenses) {
+        private val expenses: List<dcExpenses>
+    ) : ArrayAdapter<dcExpenses>(context, 0, expenses) {
 
         override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
             val view = convertView ?: LayoutInflater.from(context)

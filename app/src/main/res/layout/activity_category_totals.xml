@@ -17,7 +17,7 @@
         android:backgroundTint="#841919"
         android:text="Spent per category"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,7 @@
         android:text="Choose a time period to view total money spent"
         android:textColor="#000000"
         android:textColorHint="#EBE19D"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCategoryTotalsTitle" />
@@ -46,6 +46,7 @@
         android:backgroundTint="#841919"
         android:text="Start date"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@id/btnEndDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCategoryTotalsHint" />
@@ -58,6 +59,7 @@
         android:backgroundTint="#841919"
         android:text="End date"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnStartDate"
         app:layout_constraintTop_toTopOf="@id/btnStartDate" />
@@ -67,10 +69,11 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
+        android:autoText="false"
         android:background="#841919"
         android:text="Total for period: R0.00"
         android:textColor="#000000"
-        android:textSize="16sp"
+        android:textSize="20sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -109,6 +112,7 @@
         android:backgroundTint="#841919"
         android:text="Back"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -14,8 +14,9 @@
         android:layout_height="wrap_content"
         android:background="#841919"
         android:text="Expense photo"
+        android:textAlignment="center"
         android:textColor="#000000"
-        android:textSize="20sp"
+        android:textSize="34sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -42,6 +43,7 @@
         android:backgroundTint="#841919"
         android:text="Back"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

@@ -15,7 +15,7 @@
         android:background="#841919"
         android:text="Expense entries"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="40sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -29,7 +29,7 @@
         android:background="#841919"
         android:text="Choose a time period to view expense entries"
         android:textColor="#EBE19D"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvExpenseListTitle" />
@@ -43,6 +43,7 @@
         android:backgroundTint="#841919"
         android:text="Start date"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintEnd_toStartOf="@id/btnExpenseEndDate"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvExpenseListHint" />
@@ -55,6 +56,7 @@
         android:backgroundTint="#841919"
         android:text="End date"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@id/btnExpenseStartDate"
         app:layout_constraintTop_toTopOf="@id/btnExpenseStartDate" />
@@ -91,6 +93,7 @@
         android:backgroundTint="#841919"
         android:text="Back"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

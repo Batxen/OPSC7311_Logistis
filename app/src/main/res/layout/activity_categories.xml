@@ -16,7 +16,7 @@
         android:background="#841919"
         android:text="Categories"
         android:textColor="#000000"
-        android:textSize="24sp"
+        android:textSize="48sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -32,7 +32,8 @@
         android:inputType="text"
         android:minHeight="48dp"
         android:textColor="#841919"
-        android:textColorHint="#EBE19D"
+        android:textColorHint="#FFFFFF"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCategoriesTitle" />
@@ -48,7 +49,8 @@
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textColor="#000000"
-        android:textColorHint="#EBE19D"
+        android:textColorHint="#ffffffff"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etCategory" />
@@ -64,7 +66,8 @@
         android:inputType="numberDecimal"
         android:minHeight="48dp"
         android:textColor="#000000"
-        android:textColorHint="#000000"
+        android:textColorHint="#fff"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etMin" />
@@ -77,6 +80,7 @@
         android:backgroundTint="#000000"
         android:text="Save"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/etMax" />
@@ -101,6 +105,7 @@
         android:backgroundTint="#000000"
         android:text="Back"
         android:textColor="#EBE19D"
+        android:textSize="24sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

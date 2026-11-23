@@ -79,7 +79,7 @@ interface UserDao {
 @Dao
 interface CategoryDao {
     @Insert
-    suspend fun insert(category: dcCategory)
+    suspend fun insert(category: dcCategory): Long
 
     @Update
     suspend fun update(category: dcCategory)
@@ -106,7 +106,7 @@ interface CategoryDao {
 @Dao
 interface ExpensesDao {
     @Insert
-    suspend fun insert(expense: dcExpenses)
+    suspend fun insert(expense: dcExpenses): Long
 
     @Update
     suspend fun update(expense: dcExpenses)

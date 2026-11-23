@@ -82,6 +82,11 @@ class MonthlyGoals : AppCompatActivity() {
                         maxGoal = maxGoal.toString()
                     )
                 )
+                FirebaseSync.pushGoal(
+                    Session.username(applicationContext),
+                    minGoal.toString(),
+                    maxGoal.toString()
+                )
                 Log.i("BXR", "Monthly goals saved: min R$minGoal, max R$maxGoal")
                 runOnUiThread {
                     Toast.makeText(this@MonthlyGoals, "Monthly goals saved", Toast.LENGTH_SHORT)

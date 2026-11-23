@@ -80,6 +80,7 @@ class Menu : AppCompatActivity() {
                 }
 
                 R.id.nav_logout -> {
+                    Session.logout(this)
                     Intent(this, MainActivity::class.java).apply {
                         flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                     }.also { startActivity(it) }
@@ -122,6 +123,7 @@ class Menu : AppCompatActivity() {
             Intent(this, Settings::class.java).also { startActivity(it) }
         }
         btnLogout.setOnClickListener {
+            Session.logout(this)
             Intent(this, MainActivity::class.java).apply {
                 flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
             }.also { startActivity(it) }

@@ -112,7 +112,11 @@ class Categories : AppCompatActivity() {
                     return@launch
                 }
 
-                categoryDao.insert(newcategory)
+                val newId = categoryDao.insert(newcategory)
+                FirebaseSync.pushCategory(
+                    Session.username(applicationContext),
+                    newcategory.copy(id = newId.toInt())
+                )
                 Log.i("BXR", "Category saved: $name (${newcategory.tag})")
 
                 // reload the list only after the insert has finished

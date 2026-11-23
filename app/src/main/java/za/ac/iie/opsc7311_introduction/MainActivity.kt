@@ -11,7 +11,6 @@ import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
@@ -63,10 +62,8 @@ class MainActivity : AppCompatActivity() {
         }
 
         val tools = clsTools()
-        val db = AppDatabase.getInstance(applicationContext)
-        val userDao = db.userDao()
 
-        // Log In
+        // LOG IN
         btnnext.setOnClickListener {
             val fieldsOk = tools.validateField(etusername) and tools.validateField(etpassword)
             if (!fieldsOk) {
@@ -74,34 +71,47 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val username = etusername.text.toString().trim()
+            val username = etusername.text.toString().trim().lowercase()
+            val password = etpassword.text.toString()
+
+            setBusy(true)
             lifecycleScope.launch {
-                val dbuser = userDao.getByName(username)
-                when {
-                    dbuser == null -> {
-                        Log.w("BXR", "Login failed: no account for $username")
-                        Toast.makeText(
-                            this@MainActivity,
-                            "No account found - please register first",
-                            Toast.LENGTH_SHORT
-                        ).show()
+                val result = FirebaseSync.loginUser(username, password)
+                when (result) {
+                    AuthResult.OK -> {
+                        // download this user's categories, goals and expenses into the phone
+                        val loaded = FirebaseSync.pullAll(applicationContext, username)
+                        if (loaded) {
+                            Session.login(this@MainActivity, username)
+                            Toast.makeText(this@MainActivity, "Welcome, $username", Toast.LENGTH_SHORT).show()
+                            Intent(this@MainActivity, Menu::class.java).also { startActivity(it) }
+                            etusername.text.clear()
+                            etpassword.text.clear()
+                        } else {
+                            Toast.makeText(
+                                this@MainActivity,
+                                "Could not load your data - please try again",
+                                Toast.LENGTH_LONG
+                            ).show()
+                        }
                     }
-                    tools.hashPassword(etpassword.text.toString()) != dbuser.dbpassword -> {
-                        Log.w("BXR", "Login failed: wrong password for $username")
-                        Toast.makeText(this@MainActivity, "Incorrect password", Toast.LENGTH_SHORT).show()
-                    }
-                    else -> {
-                        Log.i("BXR", "Login success: $username")
-                        Toast.makeText(this@MainActivity, "Welcome, $username", Toast.LENGTH_SHORT).show()
-                        Intent(this@MainActivity, Menu::class.java).also { startActivity(it) }
-                        etusername.text.clear()
-                        etpassword.text.clear()
-                    }
+                    AuthResult.NOT_FOUND -> Toast.makeText(
+                        this@MainActivity, "No account found - please register first", Toast.LENGTH_SHORT
+                    ).show()
+                    AuthResult.WRONG_PASSWORD -> Toast.makeText(
+                        this@MainActivity, "Incorrect password", Toast.LENGTH_SHORT
+                    ).show()
+                    else -> Toast.makeText(
+                        this@MainActivity,
+                        "Could not reach the server - check your internet connection",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
+                setBusy(false)
             }
         }
 
-        // Register
+        // REGISTER
         btnregister.setOnClickListener {
             val fieldsOk = tools.validateField(etusername) and tools.validateField(etpassword)
             if (!fieldsOk) {
@@ -109,26 +119,40 @@ class MainActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
 
-            val username = etusername.text.toString().trim()
+            val username = etusername.text.toString().trim().lowercase()
+            val password = etpassword.text.toString()
+
+            if (!FirebaseSync.isValidUsername(username)) {
+                etusername.error = "3-20 characters: letters, numbers, _ or -"
+                return@setOnClickListener
+            }
+            if (password.length < 4) {
+                etpassword.error = "Use at least 4 characters"
+                return@setOnClickListener
+            }
+
+            setBusy(true)
             lifecycleScope.launch {
-                if (userDao.getByName(username) != null) {
-                    Log.w("BXR", "Register failed: $username already exists")
-                    etusername.error = "That username is already taken"
-                    return@launch
+                val result = FirebaseSync.registerUser(username, password)
+                setBusy(false)
+                when (result) {
+                    AuthResult.OK -> Toast.makeText(
+                        this@MainActivity, "Registered! You can now log in", Toast.LENGTH_SHORT
+                    ).show()
+                    AuthResult.TAKEN -> etusername.error = "That username is already taken"
+                    else -> Toast.makeText(
+                        this@MainActivity,
+                        "Could not reach the server - check your internet connection",
+                        Toast.LENGTH_LONG
+                    ).show()
                 }
-                userDao.insert(
-                    dcUser(
-                        dbusername = username,
-                        dbpassword = tools.hashPassword(etpassword.text.toString())
-                    )
-                )
-                Log.i("BXR", "User registered: $username")
-                Toast.makeText(
-                    this@MainActivity,
-                    "Registered! You can now log in",
-                    Toast.LENGTH_SHORT
-                ).show()
             }
         }
+    }
+
+    // Disable the buttons while we wait for the server so it cannot be tapped twice.
+    private fun setBusy(busy: Boolean) {
+        btnnext.isEnabled = !busy
+        btnregister.isEnabled = !busy
     }
 }

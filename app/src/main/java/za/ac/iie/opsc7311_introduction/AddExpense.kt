@@ -197,11 +197,21 @@ class AddExpense : AppCompatActivity() {
 
 
             lifecycleScope.launch {
-                expensesDao.insert(expense)
+                val newId = expensesDao.insert(expense)
+                FirebaseSync.pushExpense(
+                    Session.username(applicationContext),
+                    expense.copy(id = newId.toInt())
+                )
+                FirebaseSync.pushPhoto(
+                    Session.username(applicationContext),
+                    newId.toInt(),
+                    expense.photo
+                )
                 Log.i("BXR", "Expense saved: ${expense.item} R${expense.expense} ($category)")
                 Toast.makeText(this@AddExpense, "Expense saved", Toast.LENGTH_SHORT).show()
                 finish()
             }
+
         }
 
         btnBack.setOnClickListener { finish() }

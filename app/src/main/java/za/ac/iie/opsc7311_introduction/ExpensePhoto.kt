@@ -12,6 +12,7 @@ import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import java.io.File
 
+/** Shows the full-size photo attached to an expense. */
 class ExpensePhoto : AppCompatActivity() {
     companion object {
         const val EXTRA_PHOTO = "photo"

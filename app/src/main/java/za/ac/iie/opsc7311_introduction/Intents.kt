@@ -6,6 +6,7 @@ import android.widget.Button
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 
+/** Settings screen: shortcuts to Categories and Monthly goals using explicit Intents. */
 class Settings : AppCompatActivity() {
     //Declare local variables and defer initialisation
     private lateinit var goback: Button

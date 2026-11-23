@@ -22,6 +22,12 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+/**
+ * Lists the expense entries between two user-chosen dates, newest first, with a
+ * "View photo" button on entries that have a photo. Reads from the Room database.
+ * Reference: Android Developers, 2024. Save data in a local database using Room.
+ * Available at: https://developer.android.com/training/data-storage/room [Accessed 23 November 2026].
+ */
 class ExpenseList : AppCompatActivity() {
     private lateinit var lvExpenses: ListView
     private lateinit var tvNoExpenses: TextView

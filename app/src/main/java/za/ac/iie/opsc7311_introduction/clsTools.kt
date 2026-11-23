@@ -3,6 +3,7 @@ package za.ac.iie.opsc7311_introduction
 import android.widget.EditText
 import java.security.MessageDigest
 
+/** Input validation helpers and SHA-256 password hashing used across the app. */
 class clsTools {
 
     public fun validateField(varText: EditText): Boolean {

@@ -13,6 +13,11 @@ import androidx.room.Update
 import android.content.Context
 import androidx.room.Room
 
+/*
+ * Local Room database: entities, DAOs and the database singleton.
+ * Reference: Android Developers, 2024. Save data in a local database using Room.
+ * Available at: https://developer.android.com/training/data-storage/room [Accessed 23 November 2026].
+ */
 @Entity(tableName = "users")
 data class dcUser(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,

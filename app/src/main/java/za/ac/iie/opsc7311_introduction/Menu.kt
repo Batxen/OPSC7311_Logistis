@@ -13,6 +13,10 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
+/**
+ * Home screen: shows the budget streak counter, buttons to every feature and the
+ * navigation drawer. Log out clears the saved session (see Session in FirebaseSync.kt).
+ */
 class Menu : AppCompatActivity() {
     private lateinit var btnMonthlyGoals: Button
     private lateinit var btnCategoryTotals: Button

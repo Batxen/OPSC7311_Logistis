@@ -10,6 +10,10 @@
         android:title="Monthly spending goals" />
 
     <item
+        android:id="@+id/nav_rewards"
+        android:title="Rewards and streak" />
+
+    <item
         android:id="@+id/nav_category_totals"
         android:title="Spent per category" />
 

@@ -46,17 +46,34 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
+            <TextView
+                android:id="@+id/tvMenuStreak"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:background="#841919"
+                android:gravity="center"
+                android:minHeight="48dp"
+                android:padding="8dp"
+                android:text="Streak"
+                android:textColor="#EBE19D"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tvMenuTitle" />
+
             <Button
                 android:id="@+id/btnMonthlyGoals"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="80dp"
+                android:layout_marginTop="24dp"
                 android:backgroundTint="#841919"
                 android:text="Monthly spending goals"
                 android:textColor="#EBE19D"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/tvMenuTitle" />
+                app:layout_constraintTop_toBottomOf="@id/tvMenuStreak" />
 
             <Button
                 android:id="@+id/btnCategoryTotals"

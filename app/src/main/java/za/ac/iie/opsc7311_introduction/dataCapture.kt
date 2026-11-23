@@ -1,17 +1,20 @@
 package za.ac.iie.opsc7311_introduction
 
-import android.content.Intent
+import android.graphics.Color
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.ViewGroup
 import android.widget.ArrayAdapter
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ListView
+import android.widget.Spinner
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import androidx.room.Room
 import kotlinx.coroutines.launch
 import za.ac.iie.opsc7311_introduction.databinding.ActivityCategoriesBinding
 
@@ -22,10 +25,13 @@ class Categories : AppCompatActivity() {
     private lateinit var etcategory: EditText
     private lateinit var etmax: EditText
     private lateinit var etmin: EditText
+    private lateinit var spTag: Spinner
     private lateinit var lvCategories: ListView
     private lateinit var btnsubmit: Button
     private lateinit var btnback: Button
 
+    // tags a category can have; "Recreation" is used by the reward points feature
+    private val tags = listOf("Essential", "Recreation", "Other")
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -35,38 +41,50 @@ class Categories : AppCompatActivity() {
 
         val tools = clsTools()
 
-        //initialise local variables by linking it to the canvas variables
-        //using viewbinding instead of etCategory =  findViewById(R.id.etCategory)
         etcategory = binding.etCategory
         etmin = binding.etMin
         etmax = binding.etMax
+        spTag = binding.spCategoryTag
         btnback = binding.btnBack
         btnsubmit = binding.btnSave
         lvCategories = binding.lvCategories
-        //build the SQLite database
+
+        spTag.adapter = object : ArrayAdapter<String>(
+            this, android.R.layout.simple_spinner_item, tags
+        ) {
+            override fun getView(position: Int, convertView: View?, parent: ViewGroup): View {
+                return (super.getView(position, convertView, parent) as TextView).apply {
+                    setTextColor(Color.BLACK)
+                }
+            }
+
+            override fun getDropDownView(position: Int, convertView: View?, parent: ViewGroup): View {
+                return (super.getDropDownView(position, convertView, parent) as TextView).apply {
+                    setTextColor(Color.BLACK)
+                    setBackgroundColor(Color.parseColor("#EBE19D"))
+                    setPadding(24, 24, 24, 24)
+                }
+            }
+        }
+
         val db = AppDatabase.getInstance(applicationContext)
+        val categoryDao = db.categoryDao()
 
         val catlist: MutableList<String> = mutableListOf()
-        val categoryDao = db.categoryDao()
-        //  val categories = dbRoom.dcCategory(cat = "cat", catmax = "catmax", catmin = "catmin")
+        val categoryAdapter = ArrayAdapter(
+            this@Categories,
+            android.R.layout.simple_list_item_1, catlist
+        )
+        lvCategories.adapter = categoryAdapter
 
-        //load captured categories from the database, and display in listview, if it exists
+        // load captured categories from the database and display them in the listview
         lifecycleScope.launch {
-
-            val lstcat = categoryDao.getAll()
-
-            for (item in lstcat) {
-                val xx = "${item.cat}   Min R${item.catmin}   Max R${item.catmax}"
-                catlist.add(xx)
-                Log.i("BXR", "Category list: $catlist")
+            for (item in categoryDao.getAll()) {
+                catlist.add(describe(item))
             }
-            val categoryAdapter = ArrayAdapter(
-                this@Categories,
-                android.R.layout.simple_list_item_1, catlist
-            )//ArrayAdapter
-            lvCategories.adapter = categoryAdapter
+            Log.i("BXR", "Category list: $catlist")
+            categoryAdapter.notifyDataSetChanged()
         }//coroutine
-
 
         btnsubmit.setOnClickListener {
             // check every field (and = all errors show); min/max must be valid amounts
@@ -83,7 +101,8 @@ class Categories : AppCompatActivity() {
             val newcategory = dcCategory(
                 cat = name,
                 catmin = etmin.text.toString(),
-                catmax = etmax.text.toString()
+                catmax = etmax.text.toString(),
+                tag = spTag.selectedItem as String
             )
 
             lifecycleScope.launch {
@@ -94,14 +113,14 @@ class Categories : AppCompatActivity() {
                 }
 
                 categoryDao.insert(newcategory)
-                Log.i("BXR", "Category saved: $name")
+                Log.i("BXR", "Category saved: $name (${newcategory.tag})")
 
                 // reload the list only after the insert has finished
                 catlist.clear()
                 for (item in categoryDao.getAll()) {
-                    catlist.add("${item.cat}   Min R${item.catmin}   Max R${item.catmax}")
+                    catlist.add(describe(item))
                 }
-                (lvCategories.adapter as? ArrayAdapter<*>)?.notifyDataSetChanged()
+                categoryAdapter.notifyDataSetChanged()
 
                 Toast.makeText(this@Categories, "Category saved", Toast.LENGTH_SHORT).show()
                 etcategory.text.clear()
@@ -111,13 +130,9 @@ class Categories : AppCompatActivity() {
         }//btnsubmit
 
         btnback.setOnClickListener { finish() }
-
-
     }//oncreate
-// 1. Clear the backing list
-    //   myArrayList.clear()
 
-// 2. Notify the adapter so the UI updates
-    //   myAdapter.notifyDataSetChanged()
-
+    private fun describe(item: dcCategory): String {
+        return "${item.cat} (${item.tag})   Min R${item.catmin}   Max R${item.catmax}"
+    }
 }//class

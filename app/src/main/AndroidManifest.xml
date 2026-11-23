@@ -33,6 +33,7 @@
             android:name=".MonthlyGoals"
             android:windowSoftInputMode="adjustResize" />
         <activity android:name=".CategoryTotals" />
+        <activity android:name=".Rewards" />
         <activity android:name=".ExpenseList" />
         <activity android:name=".ExpensePhoto" />
         <activity

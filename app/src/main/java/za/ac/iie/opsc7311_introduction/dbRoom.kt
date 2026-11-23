@@ -25,7 +25,8 @@ data class dcCategory(
     @PrimaryKey(autoGenerate = true) val id: Int = 0,
     val cat: String,
     val catmax: String,
-    val catmin: String
+    val catmin: String,
+    val tag: String = "Essential"
 )//category class
 
 @Entity(tableName = "expenses")
@@ -131,7 +132,7 @@ interface MonthlyGoalDao {
 
 @Database(
     entities = [dcUser::class, dcCategory::class, dcExpenses::class, dcMonthlyGoal::class],
-    version = 3
+    version = 4
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao

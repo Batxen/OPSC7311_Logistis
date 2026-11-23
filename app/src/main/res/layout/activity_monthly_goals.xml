@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="12dp"
         android:background="#841919"
-        android:text="Set the least and most you want to spend this month."
+        android:text="Set the least and most you want to spend in a month. The graph shows your last 30 days."
         android:textColor="#000000"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
@@ -38,7 +38,7 @@
         android:id="@+id/etMinGoal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:backgroundTint="#841919"
         android:hint="Minimum monthly goal (R)"
         android:inputType="numberDecimal"
@@ -66,7 +66,7 @@
         android:id="@+id/btnSaveGoal"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="12dp"
         android:backgroundTint="#841919"
         android:text="Save goals"
         android:textColor="#EBE19D"
@@ -78,7 +78,7 @@
         android:id="@+id/tvCurrentSpend"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="16dp"
         android:background="#841919"
         android:text="Spent this month: R0.00"
         android:textColor="#000000"
@@ -100,6 +100,18 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tvCurrentSpend" />
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/chartGoals"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintBottom_toTopOf="@id/btnGoalsBack"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHeight_min="160dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tvGoalStatus" />
 
     <Button
         android:id="@+id/btnGoalsBack"

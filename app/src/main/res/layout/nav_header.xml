@@ -12,7 +12,7 @@
         android:layout_height="106dp"
         android:layout_marginBottom="4dp"
         android:contentDescription="@string/settings"
-        android:src="@drawable/ic_launcher_foreground"
+        android:src="@drawable/ic_launcher_foreground_logo"
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="1dp"
         tools:srcCompat="@drawable/logo_design" />

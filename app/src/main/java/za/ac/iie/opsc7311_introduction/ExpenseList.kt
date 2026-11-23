@@ -99,11 +99,7 @@ class ExpenseList : AppCompatActivity() {
     }
 
     private fun loadExpenses() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration(true)
-            .build()
+        val db = AppDatabase.getInstance(applicationContext)
 
         val periodStart = startDate.timeInMillis
         val periodEnd = endDate.timeInMillis
@@ -174,8 +170,10 @@ class ExpenseList : AppCompatActivity() {
             val amount = expense.expense.ifBlank { "0" }
 
             view.findViewById<TextView>(R.id.tvExpenseTitle).text = "$itemName  •  R$amount"
+            val timeText = if (expense.startTime.isNotBlank() && expense.endTime.isNotBlank())
+                "  •  ${expense.startTime} - ${expense.endTime}" else ""
             view.findViewById<TextView>(R.id.tvExpenseSubtitle).text =
-                "${expense.date}  •  $categoryName"
+                "${expense.date}  •  $categoryName$timeText"
 
             val btnViewPhoto = view.findViewById<Button>(R.id.btnViewPhoto)
             val hasPhoto = expense.photo.isNotBlank()

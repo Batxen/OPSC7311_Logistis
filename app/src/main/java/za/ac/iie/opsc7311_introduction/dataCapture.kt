@@ -44,12 +44,7 @@ class Categories : AppCompatActivity() {
         btnsubmit = binding.btnSave
         lvCategories = binding.lvCategories
         //build the SQLite database
-        val dbName = "mydb"
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, dbName
-        ).fallbackToDestructiveMigration()
-            .build()  //build the database =
+        val db = AppDatabase.getInstance(applicationContext)
 
         val catlist: MutableList<String> = mutableListOf()
         val categoryDao = db.categoryDao()
@@ -61,7 +56,7 @@ class Categories : AppCompatActivity() {
             val lstcat = categoryDao.getAll()
 
             for (item in lstcat) {
-                val xx = item.cat + "   R" + item.catmax + "   R" + item.catmin
+                val xx = "${item.cat}   Min R${item.catmin}   Max R${item.catmax}"
                 catlist.add(xx)
                 Log.i("BXR", "Category list: $catlist")
             }
@@ -104,7 +99,7 @@ class Categories : AppCompatActivity() {
                 // reload the list only after the insert has finished
                 catlist.clear()
                 for (item in categoryDao.getAll()) {
-                    catlist.add(item.cat + "   R" + item.catmax + "   R" + item.catmin)
+                    catlist.add("${item.cat}   Min R${item.catmin}   Max R${item.catmax}")
                 }
                 (lvCategories.adapter as? ArrayAdapter<*>)?.notifyDataSetChanged()
 

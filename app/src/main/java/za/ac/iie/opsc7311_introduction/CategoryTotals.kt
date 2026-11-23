@@ -17,6 +17,18 @@ import java.text.SimpleDateFormat
 import java.util.Calendar
 import java.util.Date
 import java.util.Locale
+import android.graphics.Color
+import android.util.Log
+import com.github.mikephil.charting.charts.CombinedChart
+import com.github.mikephil.charting.components.XAxis
+import com.github.mikephil.charting.data.BarData
+import com.github.mikephil.charting.data.BarDataSet
+import com.github.mikephil.charting.data.BarEntry
+import com.github.mikephil.charting.data.CombinedData
+import com.github.mikephil.charting.data.Entry
+import com.github.mikephil.charting.data.LineData
+import com.github.mikephil.charting.data.LineDataSet
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
 class CategoryTotals : AppCompatActivity() {
     private lateinit var lvCategoryTotals: ListView
@@ -25,6 +37,7 @@ class CategoryTotals : AppCompatActivity() {
     private lateinit var btnStartDate: Button
     private lateinit var btnEndDate: Button
     private lateinit var btnCategoryTotalsBack: Button
+    private lateinit var chart: CombinedChart
 
     private val displayFormat = SimpleDateFormat("dd/MM/yyyy", Locale.US)
     private val startDate: Calendar = Calendar.getInstance().apply {
@@ -44,6 +57,7 @@ class CategoryTotals : AppCompatActivity() {
         btnStartDate = findViewById(R.id.btnStartDate)
         btnEndDate = findViewById(R.id.btnEndDate)
         btnCategoryTotalsBack = findViewById(R.id.btnCategoryTotalsBack)
+        chart = findViewById(R.id.chartCategories)
 
         updateDateButtons()
 
@@ -98,17 +112,14 @@ class CategoryTotals : AppCompatActivity() {
     }
 
     private fun loadCategoryTotals() {
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration()
-            .build()
+        val db = AppDatabase.getInstance(applicationContext)
 
         val periodStart = startDate.timeInMillis
         val periodEnd = endDate.timeInMillis
 
         lifecycleScope.launch {
             val expenses = db.expensesDao().getAll()
+            val categories = db.categoryDao().getAll()
             val totals = linkedMapOf<String, Double>()
             var periodTotal = 0.0
 
@@ -122,11 +133,16 @@ class CategoryTotals : AppCompatActivity() {
                 totals[categoryName] = (totals[categoryName] ?: 0.0) + amount
                 periodTotal += amount
             }
+            Log.i("BXR", "Category totals for period: $totals (total R$periodTotal)")
 
             val rows = totals.entries
                 .sortedByDescending { it.value }
                 .map { "${it.key}   R${"%.2f".format(it.value)}" }
             val totalLabel = "Total for period: R${"%.2f".format(periodTotal)}"
+
+            // every defined category is shown on the graph, even with R0 spent,
+            // plus any spent category that has no goals (e.g. "Uncategorised")
+            val labels = (categories.map { it.cat } + totals.keys).distinct()
 
             runOnUiThread {
                 tvPeriodTotal.text = totalLabel
@@ -141,8 +157,96 @@ class CategoryTotals : AppCompatActivity() {
                         rows
                     )
                 }
+                showChart(labels, totals, categories)
             }
         }
+    }
+    /**
+     * Draws bars for the amount spent per category and lines for each category's
+     * min and max goal. Based on the lecturer's MPAndroidChart multi-line sample and
+     * the MPAndroidChart library by PhilJay (https://github.com/PhilJay/MPAndroidChart).
+     */
+    private fun showChart(
+        labels: List<String>,
+        totals: Map<String, Double>,
+        categories: List<dcCategory>
+    ) {
+        val textColor = Color.parseColor("#EBE19D")
+
+        chart.setNoDataText("Create a category to see the graph")
+        chart.setNoDataTextColor(textColor)
+
+        if (labels.isEmpty()) {
+            chart.clear()
+            chart.invalidate()
+            return
+        }
+
+        val barEntries = ArrayList<BarEntry>()
+        val minEntries = ArrayList<Entry>()
+        val maxEntries = ArrayList<Entry>()
+
+        labels.forEachIndexed { index, name ->
+            barEntries.add(BarEntry(index.toFloat(), (totals[name] ?: 0.0).toFloat()))
+            // categories without goals (e.g. "Uncategorised") get no goal point
+            val category = categories.firstOrNull { it.cat == name }
+            if (category != null) {
+                minEntries.add(Entry(index.toFloat(), parseAmount(category.catmin).toFloat()))
+                maxEntries.add(Entry(index.toFloat(), parseAmount(category.catmax).toFloat()))
+            }
+        }
+
+        val barSet = BarDataSet(barEntries, "Spent").apply {
+            color = textColor
+            valueTextColor = Color.WHITE
+            valueTextSize = 10f
+        }
+
+        val combined = CombinedData()
+        combined.setData(BarData(barSet).apply { barWidth = 0.5f })
+
+        if (minEntries.isNotEmpty()) {
+            val minSet = LineDataSet(minEntries, "Min goal").apply {
+                color = Color.parseColor("#4CAF50")
+                lineWidth = 2f
+                setCircleColor(Color.parseColor("#4CAF50"))
+                circleRadius = 4f
+                setDrawValues(false)
+            }
+            val maxSet = LineDataSet(maxEntries, "Max goal").apply {
+                color = Color.parseColor("#FF5252")
+                lineWidth = 2f
+                setCircleColor(Color.parseColor("#FF5252"))
+                circleRadius = 4f
+                setDrawValues(false)
+            }
+            combined.setData(LineData(minSet, maxSet))
+        }
+
+        chart.data = combined
+        chart.description.isEnabled = false
+        chart.axisRight.isEnabled = false
+
+        chart.axisLeft.apply {
+            axisMinimum = 0f
+            this.textColor = textColor
+            gridColor = Color.parseColor("#555555")
+        }
+        chart.xAxis.apply {
+            valueFormatter = IndexAxisValueFormatter(labels)
+            position = XAxis.XAxisPosition.BOTTOM
+            granularity = 1f
+            setLabelCount(labels.size, false)
+            // room on both sides so the first and last bars are not cut off
+            axisMinimum = -0.5f
+            axisMaximum = labels.size - 0.5f
+            setDrawGridLines(false)
+            this.textColor = textColor
+        }
+        chart.legend.textColor = textColor
+
+        chart.animateY(800)
+        chart.invalidate()
     }
 
     private fun parseAmount(raw: String): Double {

@@ -35,11 +35,7 @@ class MonthlyGoals : AppCompatActivity() {
         tvCurrentSpend = findViewById(R.id.tvCurrentSpend)
         tvGoalStatus = findViewById(R.id.tvGoalStatus)
 
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration(true)
-            .build()
+        val db = AppDatabase.getInstance(applicationContext)
         val goalDao = db.monthlyGoalDao()
         val expensesDao = db.expensesDao()
 

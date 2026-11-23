@@ -10,6 +10,8 @@ import androidx.room.PrimaryKey
 import androidx.room.Query
 import androidx.room.RoomDatabase
 import androidx.room.Update
+import android.content.Context
+import androidx.room.Room
 
 @Entity(tableName = "users")
 data class dcUser(
@@ -33,7 +35,9 @@ data class dcExpenses(
     val date: String,
     val expense: String,
     val item: String,
-    val photo: String
+    val photo: String,
+    val startTime: String = "",
+    val endTime: String = ""
 )//expenses class
 
 @Entity(tableName = "monthly_goals")
@@ -127,11 +131,28 @@ interface MonthlyGoalDao {
 
 @Database(
     entities = [dcUser::class, dcCategory::class, dcExpenses::class, dcMonthlyGoal::class],
-    version = 2
+    version = 3
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun userDao(): UserDao
     abstract fun categoryDao(): CategoryDao
     abstract fun expensesDao(): ExpensesDao
     abstract fun monthlyGoalDao(): MonthlyGoalDao
+
+    companion object {
+        @Volatile
+        private var INSTANCE: AppDatabase? = null
+
+        // One shared database for the whole app (singleton)
+        fun getInstance(context: Context): AppDatabase {
+            return INSTANCE ?: synchronized(this) {
+                INSTANCE ?: Room.databaseBuilder(
+                    context.applicationContext,
+                    AppDatabase::class.java, "mydb"
+                ).fallbackToDestructiveMigration(true)
+                    .build()
+                    .also { INSTANCE = it }
+            }
+        }
+    }
 }

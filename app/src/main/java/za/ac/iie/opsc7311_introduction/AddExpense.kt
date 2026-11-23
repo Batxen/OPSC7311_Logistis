@@ -85,11 +85,7 @@ class AddExpense : AppCompatActivity() {
         btnBack = findViewById(R.id.btnExpenseBack)
 
         val tools = clsTools()
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, "mydb"
-        ).fallbackToDestructiveMigration()
-            .build()
+        val db = AppDatabase.getInstance(applicationContext)
         val categoryDao = db.categoryDao()
         val expensesDao = db.expensesDao()
 
@@ -194,7 +190,9 @@ class AddExpense : AppCompatActivity() {
                 date = dateValue,
                 expense = amount.toString(),
                 item = etDescription.text.toString().trim(),
-                photo = photoPath
+                photo = photoPath,
+                startTime = startText,
+                endTime = endText
             )
 
 

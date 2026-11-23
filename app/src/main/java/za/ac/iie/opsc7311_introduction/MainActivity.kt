@@ -2,6 +2,7 @@ package za.ac.iie.opsc7311_introduction
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.Button
 import android.widget.EditText
 import android.widget.Toast
@@ -16,8 +17,8 @@ import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
 class MainActivity : AppCompatActivity() {
-    // Variables declared here
     private lateinit var btnnext: Button
+    private lateinit var btnregister: Button
     private lateinit var etusername: EditText
     private lateinit var etpassword: EditText
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
 
         btnnext = findViewById(R.id.btnNext)
+        btnregister = findViewById(R.id.btnRegister)
         etusername = findViewById(R.id.etUsername)
         etpassword = findViewById(R.id.etPassword)
 
@@ -40,8 +42,6 @@ class MainActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.toolbar)
 
         setSupportActionBar(toolbar)
-
-        // Fixed ActionBarDrawerToggle constructor call
         toggle = ActionBarDrawerToggle(
             this@MainActivity,
             drawerLayout,
@@ -51,76 +51,83 @@ class MainActivity : AppCompatActivity() {
         )
         drawerLayout.addDrawerListener(toggle)
         toggle.syncState()
+        supportActionBar?.setDisplayHomeAsUpEnabled(true)
 
-        supportActionBar?.setDisplayHomeAsUpEnabled(true) // The back arrow
-
+        // Nobody is logged in yet, so the drawer only reminds the user to log in
         navView.setNavigationItemSelectedListener { item ->
-            when (item.itemId) {
-                R.id.nav_login -> {
-                    Toast.makeText(applicationContext, "Clicked Login", Toast.LENGTH_SHORT).show()
-                }
-                R.id.nav_settings -> {
-                    Toast.makeText(applicationContext, "Clicked Settings", Toast.LENGTH_SHORT).show()
-                }
+            if (item.itemId != R.id.nav_login) {
+                Toast.makeText(this, "Please log in first", Toast.LENGTH_SHORT).show()
             }
             drawerLayout.closeDrawers()
             true
-        } // <-- Fixed: Closed the navigation listener block properly here
+        }
 
         val tools = clsTools()
-        val dbName = "mydb"
-
-        // Fixed database builder call with correct reference to AppDatabase
-        val db = Room.databaseBuilder(
-            applicationContext,
-            AppDatabase::class.java, dbName
-        ).fallbackToDestructiveMigration()
-            .build()
+        val db = AppDatabase.getInstance(applicationContext)
         val userDao = db.userDao()
 
+        // Log In
         btnnext.setOnClickListener {
-            val opt = tools.validateField(etusername) && tools.validateField(etpassword)
+            val fieldsOk = tools.validateField(etusername) and tools.validateField(etpassword)
+            if (!fieldsOk) {
+                Toast.makeText(this, "Please enter your username and password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
 
-            if (!opt) {
-                Toast.makeText(
-                    this,
-                    "Cannot use empty strings or please register!",
-                    Toast.LENGTH_SHORT
-                ).show()
-            } else {
-                lifecycleScope.launch {
-                    val dbuser = userDao.getByName(etusername.text.toString())
-
-                    if (dbuser == null) {
-                        val newuser = dcUser(
-                            dbusername = etusername.text.toString(),
-                            dbpassword = tools.hashPassword(etpassword.text.toString())
-                        )
-                        userDao.insert(newuser)
+            val username = etusername.text.toString().trim()
+            lifecycleScope.launch {
+                val dbuser = userDao.getByName(username)
+                when {
+                    dbuser == null -> {
+                        Log.w("BXR", "Login failed: no account for $username")
                         Toast.makeText(
                             this@MainActivity,
-                            "User ${etusername.text.toString()} registered in database. Please log in again",
+                            "No account found - please register first",
                             Toast.LENGTH_SHORT
                         ).show()
-                    } else {
-                        if (tools.hashPassword(etpassword.text.toString()) == dbuser.dbpassword) {
-                            Toast.makeText(
-                                this@MainActivity,
-                                "User ${etusername.text.toString()} logged in",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                            Intent(this@MainActivity, Menu::class.java).also { startActivity(it) }
-                            etusername.text.clear()
-                            etpassword.text.clear()
-                        } else {
-                            Toast.makeText(
-                                this@MainActivity,
-                                "Incorrect password",
-                                Toast.LENGTH_SHORT
-                            ).show()
-                        }
+                    }
+                    tools.hashPassword(etpassword.text.toString()) != dbuser.dbpassword -> {
+                        Log.w("BXR", "Login failed: wrong password for $username")
+                        Toast.makeText(this@MainActivity, "Incorrect password", Toast.LENGTH_SHORT).show()
+                    }
+                    else -> {
+                        Log.i("BXR", "Login success: $username")
+                        Toast.makeText(this@MainActivity, "Welcome, $username", Toast.LENGTH_SHORT).show()
+                        Intent(this@MainActivity, Menu::class.java).also { startActivity(it) }
+                        etusername.text.clear()
+                        etpassword.text.clear()
                     }
                 }
+            }
+        }
+
+        // Register
+        btnregister.setOnClickListener {
+            val fieldsOk = tools.validateField(etusername) and tools.validateField(etpassword)
+            if (!fieldsOk) {
+                Toast.makeText(this, "Please choose a username and password", Toast.LENGTH_SHORT).show()
+                return@setOnClickListener
+            }
+
+            val username = etusername.text.toString().trim()
+            lifecycleScope.launch {
+                if (userDao.getByName(username) != null) {
+                    Log.w("BXR", "Register failed: $username already exists")
+                    etusername.error = "That username is already taken"
+                    return@launch
+                }
+                userDao.insert(
+                    dcUser(
+                        dbusername = username,
+                        dbpassword = tools.hashPassword(etpassword.text.toString())
+                    )
+                )
+                Log.i("BXR", "User registered: $username")
+                Toast.makeText(
+                    this@MainActivity,
+                    "Registered! You can now log in",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }

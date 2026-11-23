@@ -18,6 +18,7 @@ import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.launch
 import za.ac.iie.opsc7311_introduction.databinding.ActivityCategoriesBinding
 
+/** Create categories with a min/max goal and a tag. Recreation categories earn extra reward points. */
 class Categories : AppCompatActivity() {
     private lateinit var binding: ActivityCategoriesBinding
 

@@ -15,6 +15,7 @@ import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.navigation.NavigationView
 import kotlinx.coroutines.launch
 
+/** Login and register screen. Accounts live in Firebase, and logging in downloads the user's data into Room. */
 class MainActivity : AppCompatActivity() {
     private lateinit var btnnext: Button
     private lateinit var btnregister: Button
@@ -75,13 +76,16 @@ class MainActivity : AppCompatActivity() {
             val password = etpassword.text.toString()
 
             setBusy(true)
+            Log.i("BXR", "Login button pressed for user: $username")
             lifecycleScope.launch {
                 val result = FirebaseSync.loginUser(username, password)
+                Log.i("BXR", "Login result for $username: $result")
                 when (result) {
                     AuthResult.OK -> {
                         // download this user's categories, goals and expenses into the phone
                         val loaded = FirebaseSync.pullAll(applicationContext, username)
                         if (loaded) {
+                            Log.i("BXR", "Session started for $username, opening menu")
                             Session.login(this@MainActivity, username)
                             Toast.makeText(this@MainActivity, "Welcome, $username", Toast.LENGTH_SHORT).show()
                             Intent(this@MainActivity, Menu::class.java).also { startActivity(it) }
@@ -123,6 +127,7 @@ class MainActivity : AppCompatActivity() {
             val password = etpassword.text.toString()
 
             if (!FirebaseSync.isValidUsername(username)) {
+                Log.w("BXR", "Register rejected: invalid username '$username'")
                 etusername.error = "3-20 characters: letters, numbers, _ or -"
                 return@setOnClickListener
             }
@@ -132,8 +137,10 @@ class MainActivity : AppCompatActivity() {
             }
 
             setBusy(true)
+            Log.i("BXR", "Register button pressed for user: $username")
             lifecycleScope.launch {
                 val result = FirebaseSync.registerUser(username, password)
+                Log.i("BXR", "Register result for $username: $result")
                 setBusy(false)
                 when (result) {
                     AuthResult.OK -> Toast.makeText(

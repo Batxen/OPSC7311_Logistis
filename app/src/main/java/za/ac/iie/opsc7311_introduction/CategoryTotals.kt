@@ -30,6 +30,7 @@ import com.github.mikephil.charting.data.LineData
 import com.github.mikephil.charting.data.LineDataSet
 import com.github.mikephil.charting.formatter.IndexAxisValueFormatter
 
+/** Bar graph of spending per category between two dates, with each category's min and max goal. */
 class CategoryTotals : AppCompatActivity() {
     private lateinit var lvCategoryTotals: ListView
     private lateinit var tvNoCategoryTotals: TextView

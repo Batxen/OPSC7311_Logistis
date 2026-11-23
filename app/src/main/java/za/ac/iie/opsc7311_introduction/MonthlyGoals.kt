@@ -22,6 +22,7 @@ import java.util.Calendar
 import java.util.Date
 import java.util.Locale
 
+/** Set the monthly min and max goal and see a 30-day graph and status of how the spending compares. */
 class MonthlyGoals : AppCompatActivity() {
     private lateinit var etMinGoal: EditText
     private lateinit var etMaxGoal: EditText
